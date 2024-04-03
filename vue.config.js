@@ -14,7 +14,7 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('@', path.resolve('examples'))
-      .set('~', path.resolve('packages'))
+      .set('~', path.resolve('src'))
     config.module
       .rule('eslint')
       .exclude.add(path.resolve('lib'))
@@ -23,7 +23,7 @@ module.exports = {
       .end()
     config.module
       .rule('js')
-      .include.add(/packages/)
+      .include.add(/src/)
       .end()
       .include.add(/examples/)
       .end()

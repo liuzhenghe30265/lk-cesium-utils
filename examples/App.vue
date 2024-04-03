@@ -1,15 +1,12 @@
 <template>
   <div id="app">
-    <input
-      type="button"
-      value="click"
-      @click="handleClick"
-    >
+    <!--  -->
   </div>
 </template>
 
 <script>
-import { GetCesiumVersion } from '../packages/index'
+/* eslint-disable no-unused-vars */
+import { GetCesiumVersion, screenTo3D } from '../src/index'
 export default {
   name: 'App',
   components: {},
@@ -17,12 +14,11 @@ export default {
     return {}
   },
   computed: {},
-  mounted() {},
-  methods: {
-    handleClick() {
-      console.log('............GetCesiumVersion', GetCesiumVersion())
-    }
-  }
+  mounted() {
+    console.log('............GetCesiumVersion', GetCesiumVersion())
+    console.log('.........screenTo3D', screenTo3D())
+  },
+  methods: {}
 }
 </script>
 
