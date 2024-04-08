@@ -1,6 +1,6 @@
 {
   "name": "lk-cesium-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "lib/lk-cesium-utils.common.js",
   "files": [
     "lib"

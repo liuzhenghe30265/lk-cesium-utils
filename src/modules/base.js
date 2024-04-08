@@ -1,4 +1,3 @@
-
 /**
  * @description: 世界坐标转经纬度
  * @param {*} position cartesian3
@@ -16,27 +15,25 @@ export function cartesian3ToDegrees(cartesian3) {
 }
 
 /**
- * @description: 根据屏幕坐标查出对应的三维坐标
- * @param {*} position {"position":{"x":725,"y":258}}
+ * @description: 屏幕坐标查出对应的三维坐标并检测是否有模型或实体
+ * @param {*} position {"x":725,"y":258}
  */
 export function screenTo3D(position) {
     // We use `viewer.scene.pickPosition` here instead of `viewer.camera.pickEllipsoid` so that
     // we get the correct point when mousing over terrain.
-    // const picked = viewer.scene.pick(event.position)
-    // const earthPosition = viewer.camera.pickEllipsoid(event.position)
-    // const earthPosition = viewer.scene.pickPosition(event.position)
-    // const ray = viewer.camera.getPickRay(event.position),
-    // rayPosition = viewer.scene.pickFromRay(ray, [])
-    // if (!rayPosition) {
-    //   rayPosition = viewer.camera.pickEllipsoid(event.position, viewer.scene.globe.ellipsoid)
-    // } else {
-    //   rayPosition = rayPosition.position
-    // }
-    const ray1 = viewer.camera.getPickRay(position)
-    const cartesian = viewer.scene.globe.pick(ray1, viewer.scene)
+
+    const ray = viewer.camera.getPickRay(position)
+    const cartesian = viewer.scene.globe.pick(ray, viewer.scene)
     if (!cartesian) {
         return
     }
+    let rayPosition = viewer.scene.pickFromRay(ray, [])
+    if (!rayPosition) {
+        rayPosition = viewer.camera.pickEllipsoid(position, viewer.scene.globe.ellipsoid)
+    } else {
+        rayPosition = rayPosition.position
+    }
+
     const pick = viewer.scene.pickPosition(position)
     const pickModel = viewer.scene.pick(position)
     // const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
@@ -65,7 +62,8 @@ export function screenTo3D(position) {
         }
     }
     return {
+        rayPosition,
         earthPosition,
-        pickModel
+        pickModel,
     }
 }
