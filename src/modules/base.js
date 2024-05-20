@@ -38,32 +38,34 @@ export function screenTo3D(position) {
     const pickModel = viewer.scene.pick(position)
     // const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
     // const heightString = viewer.scene.globe.getHeight(cartographic) // 获取拾取点的高程
-    let earthPosition = null
+    let cartesian3 = null
+    let pickPosition = null
     // * 如果点到有实体但没有模型的位置，拾取的坐标就有问题，是地表坐标
     // * 在模型上拾取位置时，有时会检测不到模型，从而拾取到地面高度，导致顶点在模型上被遮盖
     if (pick) {
-        const pickPosition = cartesian3ToDegrees(pick)
+        pickPosition = cartesian3ToDegrees(pick)
         if (pickModel) {
             if (pickModel.id && pickModel.id instanceof Cesium.Entity) {
                 // ^ 实体
                 if (pickPosition.altitude < -100) {
                     // ^ 在高程地形上的实体
-                    earthPosition = cartesian
+                    cartesian3 = cartesian
                 } else {
-                    earthPosition = pick
+                    cartesian3 = pick
                 }
             } else {
                 // ^ 有模型
-                earthPosition = pick
+                cartesian3 = pick
             }
         } else {
             // ^ 无模型无实体
-            earthPosition = cartesian
+            cartesian3 = cartesian
         }
     }
     return {
+        cartesian3,
+        position: pickPosition,
         rayPosition,
-        earthPosition,
         pickModel,
     }
 }
