@@ -8,11 +8,14 @@
 
 <script>
 import { GetCesiumVersion, screenTo3D } from '../src/index'
+import PlotUtil from '../src/modules/plot/index'
 export default {
   name: 'App',
   components: {},
   data() {
-    return {}
+    return {
+      $PlotUtil: null
+    }
   },
   computed: {},
   mounted() {
@@ -30,6 +33,20 @@ export default {
       console.log('.........event', event)
       console.log('.........screenTo3D', screenTo3D(event.position))
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
+    // this.$PlotUtil = new PlotUtil()
+    this.$PlotUtil = new PlotUtil({
+      mouseTip: true,
+      positionInfo: true,
+      platform: this.$platform,
+      defaultColorValue: this.colorValue,
+      MousePosition: data => {},
+      PlottingStatus: data => {},
+      VerticesFinish: data => {},
+      CurrentEditVertice: data => {},
+      PickMapModel: data => {},
+      Finish: data => {}
+    })
   },
   methods: {}
 }
@@ -41,8 +58,8 @@ export default {
 }
 #cesiumContainer {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 }
